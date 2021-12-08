@@ -7,8 +7,8 @@ services:
     deploy:
       replicas: 3
     labels:
-      - "traefik.http.routers.todolist.rule=PathPrefix(`/app`)"
-      - "traefik.http.middlewares.todolist.stripPrefix.prefixes=/app"
+      - "traefik.http.routers.todolist.rule=PathPrefix(`/`)"
+      - "traefik.http.middlewares.todolist.stripPrefix.prefixes=/"
       - "traefik.http.routers.todolist.middlewares=todolist@docker"
   traefik:
     image: traefik:2.5
