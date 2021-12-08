@@ -10,23 +10,23 @@ import java.util.List;
 
 @RestController
 public class TodoListController {
-    private final List<Todo> todoLists;
+    TodoRepository todoRepository;
 
-    public TodoListController(List<Todo> todoLists) {
-        this.todoLists = new ArrayList<>();
+    public TodoListController(TodoRepository todoRepository) {
+        this.todoRepository = todoRepository;
     }
 
     @GetMapping("/api/todo")
-    public List<Todo> getTodoLists() {
-        return todoLists;
+    public Iterable<TodoEntity> getTodos() {
+        return todoRepository.findAll();
     }
 
-    @PostMapping("/api/todo")
+    @PostMapping(value = "/api/todo", consumes = {"application/json"})
     public void addTodo(@RequestBody Todo todo) {
-        todoLists.add(todo);
-    }
+        TodoEntity todoEntity = new TodoEntity();
+        todoEntity.message = todo.message();
+        todoEntity.author = todo.author();
 
-    public void removeTodo(Todo todo) {
-        todoLists.remove(todo);
+        todoRepository.save(todoEntity);
     }
 }
